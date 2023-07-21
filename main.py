@@ -4,6 +4,7 @@ from fastapi import FastAPI
 from slowapi import Limiter, _rate_limit_exceeded_handler
 from slowapi.util import get_remote_address
 from fastapi.responses import JSONResponse
+from .routers import router as api_router
 
 # Import routers
 from routers import chatbot, users
@@ -20,6 +21,7 @@ app.add_exception_handler(HTTPException, _rate_limit_exceeded_handler)
 # Include routers
 app.include_router(chatbot.router)
 app.include_router(users.router)
+app.include_router(api_router)
 
 @app.exception_handler(Exception)
 async def exception_handler(request, exc):
