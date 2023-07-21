@@ -5,6 +5,7 @@ from slowapi import Limiter, _rate_limit_exceeded_handler
 from slowapi.util import get_remote_address
 from fastapi.responses import JSONResponse
 from .routers import router as api_router
+from .core import auth
 
 # Import routers
 from routers import chatbot, users
