@@ -1,14 +1,22 @@
-from pydantic import BaseModel
-from typing import Optional
+from sqlalchemy import Column, Integer, String
+from sqlalchemy.ext.declarative import declarative_base
 
-class TokenData(BaseModel):
-    username: Optional[str] = None
+Base = declarative_base()
 
-class User(BaseModel):
-    username: str
-    email: Optional[str] = None
-    full_name: Optional[str] = None
-    disabled: Optional[bool] = None
+class User(Base):
+    __tablename__ = "users"
 
-class UserInDB(User):
-    hashed_password: str
+    id = Column(Integer, primary_key=True, index=True)
+    username = Column(String, unique=True, index=True)
+    email = Column(String, unique=True, index=True)
+    hashed_password = Column(String)
+    full_name = Column(String)
+    disabled = Column(Boolean, default=False)
+
+class Message(Base):
+    __tablename__ = "messages"
+
+    id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer, ForeignKey("users.id"))
+    content = Column(String)
+    timestamp = Column(DateTime, default=datetime.utcnow)
