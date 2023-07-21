@@ -1,4 +1,9 @@
-class AuthenticationError(Exception):
-    def __init__(self, message="Authentication failed"):
-        self.message = message
-        super().__init__(self.message)
+from fastapi.responses import JSONResponse
+import logging
+
+async def exception_handler(request, exc):
+    logging.error(f"An error occurred: {exc}")
+    return JSONResponse(
+        status_code=500,
+        content="An error occurred. Please try again later.",
+    )
