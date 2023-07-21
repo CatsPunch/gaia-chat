@@ -1,17 +1,14 @@
 from pydantic import BaseModel
+from typing import Optional
 
-class UserBase(BaseModel):
-    email: str
+class TokenData(BaseModel):
+    username: Optional[str] = None
 
-class UserCreate(UserBase):
-    password: str
+class User(BaseModel):
+    username: str
+    email: Optional[str] = None
+    full_name: Optional[str] = None
+    disabled: Optional[bool] = None
 
-class User(UserBase):
-    id: int
-    is_active: bool
-
-class ChatbotRequest(BaseModel):
-    message: str
-
-class ChatbotResponse(BaseModel):
-    response: str
+class UserInDB(User):
+    hashed_password: str
