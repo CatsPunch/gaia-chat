@@ -1,12 +1,17 @@
-from sqlalchemy import Boolean, Column, Integer, String
-from sqlalchemy.orm import relationship
+from pydantic import BaseModel
+from typing import Optional
 
-from .database import Base
+class User(BaseModel):
+    username: str
+    email: Optional[str] = None
+    full_name: Optional[str] = None
+    disabled: Optional[bool] = None
 
-class User(Base):
-    __tablename__ = "users"
+class UserInDB(User):
+    hashed_password: str
 
-    id = Column(Integer, primary_key=True, index=True)
-    email = Column(String, unique=True, index=True)
-    hashed_password = Column(String)
-    is_active = Column(Boolean, default=True)
+class ChatInput(BaseModel):
+    user_input: str
+
+class ChatResponse(BaseModel):
+    response: str
